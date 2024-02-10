@@ -1,0 +1,171 @@
+package javafiles;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Sstudent {
+    private String name;
+    private int age;
+    private String gender;
+    private String contact;
+
+    public Sstudent(String name, int age, String gender, String contact) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.contact = contact;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Age: " + age + ", Gender: " + gender + ", Contact: " + contact;
+    }
+}
+
+public class StudentManagementSystem {
+    private static ArrayList<Sstudent> students = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("\nStudent Management System");
+            System.out.println("1. Add Student");
+            System.out.println("2. Display All Students");
+            System.out.println("3. Update Student");
+            System.out.println("4. Delete Student");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline character
+
+            switch (choice) {
+                case 1:
+                    addStudent();
+                    break;
+                case 2:
+                    displayStudents();
+                    break;
+                case 3:
+                    updateStudent();
+                    break;
+                case 4:
+                    deleteStudent();
+                    break;
+                case 5:
+                    exit = true;
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+        scanner.close();
+    }
+
+    private static void addStudent() {
+        System.out.println("\nAdd Student");
+        System.out.print("Enter name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter age: ");
+        int age = scanner.nextInt();
+        scanner.nextLine(); // Consume newline character
+        System.out.print("Enter gender: ");
+        String gender = scanner.nextLine();
+        System.out.print("Enter contact: ");
+        String contact = scanner.nextLine();
+
+        Sstudent student = new Sstudent(name, age, gender, contact);
+        students.add(student);
+        System.out.println("Student added successfully.");
+    }
+
+    private static void displayStudents() {
+        System.out.println("\nList of Students");
+        if (students.isEmpty()) {
+            System.out.println("No students found.");
+        } else {
+            for (Sstudent student : students) {
+                System.out.println(student);
+            }
+        }
+    }
+
+    private static void updateStudent() {
+        System.out.println("\nUpdate Student");
+        System.out.print("Enter name of student to update: ");
+        String name = scanner.nextLine();
+        boolean found = false;
+        for (Sstudent student : students) {
+            if (student.getName().equalsIgnoreCase(name)) {
+                System.out.print("Enter new age: ");
+                int age = scanner.nextInt();
+                scanner.nextLine(); // Consume newline character
+                System.out.print("Enter new gender: ");
+                String gender = scanner.nextLine();
+                System.out.print("Enter new contact: ");
+                String contact = scanner.nextLine();
+
+                student.setAge(age);
+                student.setGender(gender);
+                student.setContact(contact);
+                found = true;
+                System.out.println("Student details updated successfully.");
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("Student not found.");
+        }
+    }
+
+    private static void deleteStudent() {
+        System.out.println("\nDelete Student");
+        System.out.print("Enter name of student to delete: ");
+        String name = scanner.nextLine();
+        boolean removed = false;
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getName().equalsIgnoreCase(name)) {
+                students.remove(i);
+                removed = true;
+                System.out.println("Student deleted successfully.");
+                break;
+            }
+        }
+        if (!removed) {
+            System.out.println("Student not found.");
+        }
+    }
+}
